@@ -1,0 +1,19 @@
+\begin{tabular}{@{}llrl@{}}
+\toprule
+Method & Label & $n$ & Clean [95\% CI] \\
+\midrule
+Minimal attribute prompt & label & 121 & \textbf{87} [78, 94] \\
+Detailed prompt & label & 121 & \textbf{83} [70, 91] \\
+Hidden-state steering, S4--S12 & label & 109 & \textbf{49} [30, 63] \\
+\midrule
+Source injection + edit guidance & no & 121 & \textbf{57} [43, 70] \\
+Source injection & no & 121 & \textbf{52} [40, 63] \\
+SDEdit, skip 1 step & no & 121 & \textbf{34} [21, 48] \\
+Correction predicted from reference & no & 121 & \textbf{31} [21, 40] \\
+Text-token steering (SHIFT-style) & contrast pairs & 121 & \textbf{31} [18, 47] \\
+Reference guidance & no & 121 & \textbf{21} [11, 33] \\
+Probe names attribute, then steering & no & 121 & \textbf{20} [13, 32] \\
+Text-to-reference attention boost & no & 121 & \textbf{15} [8, 21] \\
+Vanilla prompt & no & 121 & \textbf{3} [0, 7] \\
+\bottomrule
+\end{tabular}

@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+code/data/
+*.pt
+*.jpg
+*.png
+!paper/figs/*.png
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.bbl
+paper/*.blg

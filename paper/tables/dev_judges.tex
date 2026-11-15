@@ -1,0 +1,14 @@
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{3}{c}{Judge 1} & \multicolumn{3}{c}{Judge 2} \\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+Method & Kept & Edited & Clean & Kept & Edited & Clean \\
+\midrule
+Minimal attribute prompt & 92 & 98 & \textbf{87} & 84 & 77 & \textbf{65} \\
+Detailed prompt & 85 & 98 & \textbf{83} & 83 & 82 & \textbf{65} \\
+Source injection + edit guidance & 75 & 82 & \textbf{57} & 66 & 52 & \textbf{31} \\
+Source injection & 78 & 76 & \textbf{52} & 71 & 46 & \textbf{26} \\
+SDEdit, skip 1 step & 62 & 72 & \textbf{34} & 60 & 49 & \textbf{24} \\
+Vanilla prompt & 3 & 98 & \textbf{3} & 5 & 84 & \textbf{4} \\
+\bottomrule
+\end{tabular}

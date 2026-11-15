@@ -1,0 +1,17 @@
+\begin{tabular}{@{}lccccclc@{}}
+\toprule
+Method & Label & Passes & Kept & Edited & Defect & Clean [95\% CI] & Judge 2 \\
+\midrule
+Detailed prompt & prompt & 0 & 95 & 97 & 0 & \textbf{92} [86, 96] & 67 \\
+Minimal attribute prompt & prompt & 0 & 93 & 94 & 0 & \textbf{87} [80, 93] & 65 \\
+Text-difference guidance & yes & 2 & 93 & 94 & 0 & \textbf{87} [81, 92] & 58 \\
+Hidden-state steering (S4--S12) & yes & 1 & 79 & 97 & 8 & \textbf{71} [64, 77] & 48 \\
+Velocity steering & yes & 1 & 64 & 94 & 3 & \textbf{57} [47, 65] & 41 \\
+\midrule
+Velocity-matching LoRA & no & 0 & 51 & 96 & 1 & \textbf{47} [37, 57] & 34 \\
+SDEdit, skip 1 step & no & $-1$ & 42 & 85 & 2 & \textbf{34} [26, 43] & 16 \\
+Negative guidance & typical & 2 & 21 & 99 & 1 & \textbf{20} [15, 26] & -- \\
+Reference-attention boost & no & 1 & 7 & 97 & 0 & \textbf{6} [3, 10] & -- \\
+Vanilla prompt & no & 0 & 0 & 99 & 0 & \textbf{0} [0, 0] & 1 \\
+\bottomrule
+\end{tabular}
