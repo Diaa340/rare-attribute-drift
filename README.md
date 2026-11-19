@@ -70,6 +70,25 @@ Scripts are listed in the order they depend on each other. Each one has a docstr
 | | `text_steer.py`, `refguid.py`, `txtref.py` | text-token steering, reference guidance, attention boost | Table 3 |
 | Paper | `make_paper.py` | figures and tables | all |
 
+## KOALA: correction adapter + source pull
+
+KOALA keeps the plain instruction and needs no label: a small trained adapter (`adapter.py`) adds a predicted teacher
+correction to the velocity at every step, and after step 0 the source pull of `sdedit_plus2.py` (`rep1_full_subj_b2_g1`)
+moves the subject tokens toward the reference. 7 editor forwards.
+
+| Script | Produces |
+|---|---|
+| `collect_adapter.py` | teacher corrections at the states of plain rollouts of training subjects (`adapter_data/`) |
+| `train_adapter.py` | the adapter (`adapter.pt`) |
+| `koala.py --ckpt adapter.pt` | KOALA and vanilla edits of the val subjects with judge-1 scores (`koala_val/`) |
+
+Subjects come from `koala_split.json` (a re-split of the released dev + test pairs by subject: 63 train / 39 val / 39
+test), so the teacher choice needs `judge.py` scores of both splits. The trained adapter used in the report (s 2, b 2,
+g 1) is `/home/nina.konovalova/shift/experiments/20261118-2236_correction_train/heads/full_notext.pt` (MBZUAI cluster,
+md5 `7563d0b067bc64831ae1e25952c5d67c`); `koala.py --ckpt` loads it as is. Its teachers were chosen with the judge
+wording of our own pipeline rather than `judge.py`'s, so rerunning `collect_adapter.py` can pick slightly different
+pairs.
+
 ## Protocol
 
 Every method choice was made on the dev split. The test split (70 subjects) was used for two evaluation rounds (steering
