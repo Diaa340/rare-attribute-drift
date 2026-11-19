@@ -11,3 +11,6 @@ paper/*.log
 paper/*.out
 paper/*.bbl
 paper/*.blg
+!assets/*.jpg
+!assets/*.png
+!weights/koala_adapter.pt

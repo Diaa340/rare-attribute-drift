@@ -37,8 +37,9 @@ def batch(i, k):
 
 
 A = Adapter().cuda()
-f = A.feats(*batch(torch.randperm(n)[:128], torch.randint(4, (128,)))[0]).flatten(0, 1)      # input statistics
-A.mu.copy_(f.mean(0)); A.sd.copy_(f.std(0, correction=0).clamp_min(1e-4)); del f
+i = torch.randperm(n)[:128]
+f = A.feats(*batch(i, torch.randint(4, (len(i),)))[0]).flatten(0, 1)                     # input statistics
+A.mu.copy_(f.mean(0)); A.sd.copy_(f.std(0, correction=0).clamp_min(1e-4))
 opt = torch.optim.AdamW(A.parameters(), lr=a.lr, weight_decay=a.wd)
 sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda t: min(1.0, (t + 1) / 100) * 0.5 * (1 + math.cos(math.pi * t / a.iters)))
 for it in range(1, a.iters + 1):
