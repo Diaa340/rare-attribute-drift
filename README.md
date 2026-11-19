@@ -112,49 +112,19 @@ rerun of `collect_adapter.py` can pick slightly different pairs and gives a simi
 [`code/koala_split.json`](code/koala_split.json) re-splits the released dev + test pairs by subject into 63 training,
 39 validation and 39 test subjects, keeping near-duplicate subjects together. It is not the release split:
 
-- 542 release-test pairs are KOALA training data, so do not score KOALA on the release test cases of Table 1 below.
-- The KOALA validation and test parts contain release-dev pairs (36 of 241 and 54 of 242), on which the release-dev
-  methods below were tuned.
+- 542 release-test pairs are KOALA training data, so do not score KOALA on the release test split.
+- The KOALA validation and test parts contain release-dev pairs (36 of 241 and 54 of 242), on which the drift-analysis
+  methods were tuned.
 
 ## Repository layout
 
 ```
 assets/    README figures
 code/      all scripts (run from this folder; they read data/ and write next to themselves)
-paper/     LaTeX source, figures, tables and the PDF of the earlier short paper
-results/   per-case judge scores (parquet/csv) behind every table and figure of the short paper
+paper/     LaTeX source, figures, tables and PDF of the drift analysis
+results/   per-case judge scores (parquet/csv) of the drift analysis
 weights/   the trained KOALA adapter
 ```
-
-### Running the experiments
-
-Scripts are listed in the order they depend on each other. Each one has a docstring with its arguments.
-
-| Step | Script | Produces | Paper |
-|---|---|---|---|
-| Core | `velocity.py` | manual 4-step edit loop with access to the velocity | all |
-| | `hidden.py`, `attn_mask.py` | hooks on the 25 blocks; subject mask from attention to the subject word | all |
-| | `judge.py`, `judge2.py` | VLM judges (Qwen2.5-VL-7B, Qwen3-VL-8B) | all |
-| 1. Drift | `judge.py --split dev --out judge_dev.parquet`, then `drift_table.py` | `judge_dev.parquet`, `drift_table_dev.parquet` | Sec. 2 |
-| 2. Analysis | `exp_step0.py`, `analyze_step0.py` | step swap | Fig. 1a |
-| | `collect_dv.py`, `collect_h.py`, `analyze_h.py` | corrections per step and block, `layer_scores.csv` | Fig. 1b |
-| | `refdir_collect.py`, `refprobe.py`, `ridge_cos2.py` | attribute read from reference activations | Sec. 3 |
-| 3. Test | `steer_final.py --mode test`, `rescore_defects.py` | hidden / velocity steering | Table 1 |
-| | `baselines.py`, `analyze_baselines.py` | prompt, guidance, SDEdit, attention baselines | Table 1-2 |
-| | `train_lora.py`, `eval_lora.py`, `analyze_lora.py` | velocity-matching LoRA | Table 1-2 |
-| | `score2_test.py`, `judge2_table.py` | second-judge rescoring | Table 1 |
-| 4. Ceiling (dev) | `ladder.py` | exact and low-rank patching oracles | Fig. 3 |
-| | `steer2.py`, `depth.py` (+ `analyze_*.py`) | own-vector oracle, block ranges, label-free directions | Fig. 3, Table 3 |
-| 5. Label-free (dev) | `sdedit_plus2.py`, `score2_sdedit.py` | SDEdit and source injection | Table 3, App. |
-| | `text_steer.py`, `refguid.py`, `txtref.py` | text-token steering, reference guidance, attention boost | Table 3 |
-| Paper | `make_paper.py` | figures and tables | all |
-
-### Protocol
-
-Every method choice of the short paper was made on the release dev split. The release test split (70 subjects) was
-used for two evaluation rounds (steering with baselines, then the LoRA) and for rescoring the same images with the
-second judge. Scores come from VLM judges; the two judges agree on "attribute kept" (kappa 0.76) but less on "edit
-applied" (kappa 0.46).
 
 ## Citation
 
