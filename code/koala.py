@@ -36,7 +36,7 @@ A = Adapter().to(E.device); A.load_state_dict(torch.load(a.ckpt)["state"]); pos 
 
 @torch.no_grad()
 def koala(st, tv, ids):
-    sg, ref = st["sigmas"], st["ref"].float()
+    sg, ref = st["sigmas"].float(), st["ref"].float()
     P.ids, P.maps = ids, {}
     v = E.velocity(st["x"], st["ts"][0], tv, st).float(); P.ids = None
     M = top_mask(torch.stack(list(P.maps.values())).mean(0), 0.25) if P.maps else torch.ones(1024, dtype=torch.bool)

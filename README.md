@@ -83,7 +83,8 @@ moves the subject tokens toward the reference. 7 editor forwards.
 | `koala.py --ckpt adapter.pt` | KOALA and vanilla edits of the val subjects with judge-1 scores (`koala_val/`) |
 
 Subjects come from `koala_split.json` (a re-split of the released dev + test pairs by subject: 63 train / 39 val / 39
-test), so the teacher choice needs `judge.py` scores of both splits. The trained adapter used in the report (s 2, b 2,
+test), so the teacher choice needs `judge.py` scores of both splits, and KOALA is scored on the `koala_split.json` parts,
+not on the Table 1 test cases (its training subjects include some of them). The trained adapter used in the report (s 2, b 2,
 g 1) is `/home/nina.konovalova/shift/experiments/20261118-2236_correction_train/heads/full_notext.pt` (MBZUAI cluster,
 md5 `7563d0b067bc64831ae1e25952c5d67c`); `koala.py --ckpt` loads it as is. Its teachers were chosen with the judge
 wording of our own pipeline rather than `judge.py`'s, so rerunning `collect_adapter.py` can pick slightly different
