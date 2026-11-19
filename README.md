@@ -126,31 +126,6 @@ results/   per-case judge scores (parquet/csv) behind every table and figure of 
 weights/   the trained KOALA adapter
 ```
 
-## Analysis of the drift (earlier short paper)
-
-The analysis code comes from the short paper **"Rare Attributes Are Lost in the Text Stream: Prior-Driven Drift in
-Reference-Based Editing with FLUX.2 [klein]"** ([`paper/main.pdf`](paper/main.pdf)). It locates where the drift happens
-and tests fixes that leave the prompt unchanged on the release split.
-
-| Finding | Number | Where |
-|---|---|---|
-| Vanilla edits that lose the rare attribute (dev, dataset seed) | 84% | Sec. 2 |
-| Detailed prompt at steps 0-1 only restores it | 97% | Fig. 1a |
-| Model's own activations name the reference's rare attribute (unseen subjects, top-1 / top-3) | 69% / 92% | Sec. 3 |
-| Held-out test, clean success: detailed / minimal prompt | 92% / 87% | Table 1 |
-| Held-out test: hidden-state steering (no prompt change) / LoRA (no label) | 71% / 47% | Table 1 |
-| Exact patch of the image tokens at S4-S12 (oracle) vs. detailed prompt | 61% vs. 99% | Fig. 3 |
-| Best label-free, training-free method (dev) | 57% | Table 3 |
-
-### Rebuilding the short paper's tables and figures from the shipped results
-
-```bash
-cp -r results/* code/ && cd code && python make_paper.py   # writes code/paper/figs and code/paper/tables
-```
-
-This reproduces all four tables exactly and the figures except the example images, which need the dataset and the
-generated images (not in the repo); without them that figure is skipped.
-
 ### Running the experiments
 
 Scripts are listed in the order they depend on each other. Each one has a docstring with its arguments.
